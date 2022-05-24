@@ -7,4 +7,3 @@
 (spec/def :http.ok/result #{:success :failed})
 (spec/def :http/ok (spec/or :map map?
                             :result (spec/keys :req-un [:http.ok/result])))
-

@@ -9,4 +9,3 @@
 (spec/def :error/error (spec/keys :req [:error/message]
                                   :opt [:error/exception
                                         :error/data]))
-

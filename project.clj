@@ -1,4 +1,4 @@
-(defproject songpark/taxonomy "0.2.0"
+(defproject songpark/taxonomy "0.3.0-SNAPSHOT"
 
   :dependencies [[org.clojure/clojure "1.10.3" :scope "provided"]
                  [tick "0.5.0-RC5" :scope "provided"]]

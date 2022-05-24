@@ -12,5 +12,3 @@
               :failed
               :sent
               :received})
-
-
