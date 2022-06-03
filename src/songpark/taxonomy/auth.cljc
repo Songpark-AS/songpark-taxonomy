@@ -25,8 +25,7 @@
                                       :auth.user/status
                                       :auth.user/token-at
                                       :profile/name
-                                      :profile/bio
-                                      :profile/location
+                                      :profile/position
                                       :profile/pronoun]))
 
 (spec/def :auth/no-user (spec/keys :req [:auth.user/status]))

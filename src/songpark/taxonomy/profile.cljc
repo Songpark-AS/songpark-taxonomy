@@ -5,22 +5,19 @@
 (spec/def :profile/id number?)
 (spec/def :profile/name (spec/and string?
                                   #(not (str/blank? %))))
-(spec/def :profile/bio string?)
 (spec/def :profile/pronoun string?)
-(spec/def :profile/location string?)
+(spec/def :profile/position string?)
 (spec/def :profile/image-url string?)
 (spec/def :profile.image/base64 string?)
 (spec/def :profile.image/type string?)
 (spec/def :profile/profile (spec/keys :req [:profile/name
-                                            :profile/bio
-                                            :profile/location]
+                                            :profile/position]
                                       :opt [:profile/id
                                             :profile/image-url
                                             :profile.pronoun/id]))
 
 (spec/def :profile/save (spec/keys :req [:profile/name
-                                         :profile/bio
-                                         :profile/location
+                                         :profile/position
                                          :profile.pronoun/id]
                                    :opt [:profile.image/base64
                                          :profile.image/type]))
