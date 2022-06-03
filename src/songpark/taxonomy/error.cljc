@@ -5,7 +5,9 @@
 (spec/def :error/message string?)
 (spec/def :error/exception string?)
 (spec/def :error/data any?)
+(spec/def :error/key keyword?)
 
 (spec/def :error/error (spec/keys :req [:error/message]
                                   :opt [:error/exception
-                                        :error/data]))
+                                        :error/data
+                                        :error/key]))
