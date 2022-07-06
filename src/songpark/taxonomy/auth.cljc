@@ -16,11 +16,13 @@
 (spec/def :auth.user/token string?)
 (spec/def :auth.user/token-at tick?)
 (spec/def :auth.user/status #{:auth :no-auth})
+(spec/def :auth.user/channel uuid?)
 
 
 (spec/def :auth/user (spec/keys :req [:auth.user/id
                                       :auth.user/email
-                                      :auth.user/verified-email?]
+                                      :auth.user/verified-email?
+                                      :auth.user/channel]
                                 :opt [:auth.user/token
                                       :auth.user/status
                                       :auth.user/token-at
