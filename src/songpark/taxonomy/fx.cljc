@@ -201,5 +201,18 @@
                               :else
                               false))))
 
-
 (spec/def :fx/presets (spec/coll-of :fx/preset))
+
+(spec/def :fx.preset/name string?)
+(spec/def :fx.preset/id number?)
+(spec/def :fx.preset/preset (spec/keys :req [:fx.preset/id
+                                             :fx.preset/name
+                                             :fx/presets]))
+
+(spec/def :fx.preset/preset-save (spec/keys :req [:fx.preset/name
+                                                  :fx/presets]))
+
+(spec/def :fx.preset/preset-update (spec/keys :req [:fx.preset/id
+                                                    :fx.preset/name
+                                                    :fx/presets]))
+(spec/def :fx.preset/preset-delete (spec/keys :req [:fx.preset/id]))
