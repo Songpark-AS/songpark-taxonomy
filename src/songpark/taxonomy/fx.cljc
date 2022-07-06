@@ -137,11 +137,7 @@
 
 (spec/def :fx/preset (spec/and
                       (spec/merge (spec/keys :req [:fx/type])
-                                  (spec/or :fx.input1/gain :fx.input1/gain
-                                           :fx.input2/gain :fx.input2/gain
-                                           :fx.input1/pan :fx.input1/pan
-                                           :fx.input2/pan :fx.input2/pan
-                                           :fx.input1/gate :fx.input1/gate
+                                  (spec/or :fx.input1/gate :fx.input1/gate
                                            :fx.input2/gate :fx.input2/gate
                                            :fx.input1/reverb :fx.input1/reverb
                                            :fx.input2/reverb :fx.input2/reverb
@@ -154,23 +150,7 @@
                                            :fx.input1/compressor :fx.input1/compressor
                                            :fx.input2/compressor :fx.input2/compressor))
                       (fn [{fx-type :fx/type :as data}]
-                        (cond (and (= fx-type :fx.input1/gain)
-                                   (contains? data :fx.input1/gain))
-                              true
-
-                              (and (= fx-type :fx.input2/gain)
-                                   (contains? data :fx.input2/gain))
-                              true
-
-                              (and (= fx-type :fx.input1/pan)
-                                   (contains? data :fx.input1/pan))
-                              true
-
-                              (and (= fx-type :fx.input2/pan)
-                                   (contains? data :fx.input2/pan))
-                              true
-
-                              (and (= fx-type :fx.input1/gate)
+                        (cond (and (= fx-type :fx.input1/gate)
                                    (contains? data :fx.input1.gate/threshold))
                               true
 
