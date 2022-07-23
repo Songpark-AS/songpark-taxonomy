@@ -2,217 +2,144 @@
   (:require [clojure.spec.alpha :as spec]))
 
 
-(spec/def :fx/type keyword?)
+(spec/def :fx/base (spec/keys :opt [:fx/type]))
+
+(spec/def :fx/type #{:fx/gate
+                     :fx/reverb
+                     :fx/amplify
+                     :fx/compressor
+                     :fx/echo
+                     :fx/equalizer})
 
 ;; panorama
-(spec/def :fx.input1/pan number?)
-(spec/def :fx.input2/pan number?)
+(spec/def :fx/pan number?)
 ;; gain
-(spec/def :fx.input1/gain number?)
-(spec/def :fx.input2/gain number?)
+(spec/def :fx/gain number?)
 
 ;; gate
-(spec/def :fx.input1.gate/switch boolean?)
-(spec/def :fx.input2.gate/switch boolean?)
-(spec/def :fx.input1.gate/threshold number?)
-(spec/def :fx.input2.gate/threshold number?)
-(spec/def :fx.input1.gate/attack number?)
-(spec/def :fx.input2.gate/attack number?)
-(spec/def :fx.input1.gate/release number?)
-(spec/def :fx.input2.gate/release number?)
+(spec/def :fx.gate/threshold number?)
+(spec/def :fx.gate/attack number?)
+(spec/def :fx.gate/release number?)
 
-(spec/def :fx.input1/gate (spec/keys :req [:fx.input1.gate/threshold
-                                           :fx.input1.gate/attack
-                                           :fx.input1.gate/release]
-                                     :opt [:fx.input1.gate/switch]))
-
-(spec/def :fx.input2/gate (spec/keys :req [:fx.input2.gate/threshold
-                                           :fx.input2.gate/attack
-                                           :fx.input2.gate/release]
-                                     :opt [:fx.input2.gate/switch]))
+(spec/def :fx/gate (spec/merge
+                    :fx/base
+                    (spec/keys :req [:fx.gate/threshold
+                                     :fx.gate/attack
+                                     :fx.gate/release])))
 
 ;; reverb
-(spec/def :fx.input1.reverb/switch boolean?)
-(spec/def :fx.input2.reverb/switch boolean?)
-(spec/def :fx.input1.reverb/mix number?)
-(spec/def :fx.input2.reverb/mix number?)
-(spec/def :fx.input1.reverb/damp number?)
-(spec/def :fx.input2.reverb/damp number?)
-(spec/def :fx.input1.reverb/room-size number?)
-(spec/def :fx.input2.reverb/room-size number?)
+(spec/def :fx.reverb/mix number?)
+(spec/def :fx.reverb/damp number?)
+(spec/def :fx.reverb/room-size number?)
 
-(spec/def :fx.input1/reverb (spec/keys :req [:fx.input1.reverb/mix
-                                             :fx.input1.reverb/damp
-                                             :fx.input1.reverb/room-size]
-                                       :opt [:fx.input1.reverb/switch]))
+(spec/def :fx/reverb (spec/merge
+                      :fx/base
+                      (spec/keys :req [:fx.reverb/mix
+                                       :fx.reverb/damp
+                                       :fx.reverb/room-size])))
 
-(spec/def :fx.input2/reverb (spec/keys :req [:fx.input2.reverb/mix
-                                             :fx.input2.reverb/damp
-                                             :fx.input2.reverb/room-size]
-                                       :opt [:fx.input2.reverb/switch]))
 
 ;; amplify
-(spec/def :fx.input1.amplify/switch boolean?)
-(spec/def :fx.input2.amplify/switch boolean?)
-(spec/def :fx.input1.amplify/drive number?)
-(spec/def :fx.input2.amplify/drive number?)
-(spec/def :fx.input1.amplify/tone number?)
-(spec/def :fx.input2.amplify/tone number?)
+(spec/def :fx.amplify/drive number?)
+(spec/def :fx.amplify/tone number?)
 
-(spec/def :fx.input1/amplify (spec/keys :req [:fx.input1.amplify/drive
-                                              :fx.input1.amplify/tone]
-                                        :opt [:fx.input1.amplify/switch]))
-
-(spec/def :fx.input2/amplify (spec/keys :req [:fx.input2.amplify/drive
-                                              :fx.input2.amplify/tone]
-                                        :opt [:fx.input2.amplify/switch]))
+(spec/def :fx/amplify (spec/merge
+                       :fx/base
+                       (spec/keys :req [:fx.amplify/drive
+                                        :fx.amplify/tone])))
 
 ;; equalizer
-(spec/def :fx.input1.equalizer/switch boolean?)
-(spec/def :fx.input2.equalizer/switch boolean?)
-(spec/def :fx.input1.equalizer/low number?)
-(spec/def :fx.input2.equalizer/low number?)
-(spec/def :fx.input1.equalizer/medium-low number?)
-(spec/def :fx.input2.equalizer/medium-low number?)
-(spec/def :fx.input1.equalizer/medium-high number?)
-(spec/def :fx.input2.equalizer/medium-high number?)
-(spec/def :fx.input1.equalizer/high number?)
-(spec/def :fx.input2.equalizer/high number?)
+(spec/def :fx.equalizer/switch boolean?)
+(spec/def :fx.equalizer/low number?)
+(spec/def :fx.equalizer/medium-low number?)
+(spec/def :fx.equalizer/medium-high number?)
+(spec/def :fx.equalizer/high number?)
 
-(spec/def :fx.input1/equalizer (spec/keys :req [:fx.input1.equalizer/low
-                                                :fx.input1.equalizer/medium-low
-                                                :fx.input1.equalizer/medium-high
-                                                :fx.input1.equalizer/high]
-                                          :opt [:fx.input1.equalizer/switch]))
-
-(spec/def :fx.input2/equalizer (spec/keys :req [:fx.input2.equalizer/low
-                                                :fx.input2.equalizer/medium-low
-                                                :fx.input2.equalizer/medium-high
-                                                :fx.input2.equalizer/high]
-                                          :opt [:fx.input2.equalizer/switch]))
+(spec/def :fx/equalizer (spec/merge
+                         :fx/base
+                         (spec/keys :req [:fx.equalizer/low
+                                          :fx.equalizer/medium-low
+                                          :fx.equalizer/medium-high
+                                          :fx.equalizer/high])))
 
 ;; echo
-(spec/def :fx.input1.echo/switch boolean?)
-(spec/def :fx.input2.echo/switch boolean?)
-(spec/def :fx.input1.echo/delay-time number?)
-(spec/def :fx.input2.echo/delay-time number?)
-(spec/def :fx.input1.echo/level number?)
-(spec/def :fx.input2.echo/level number?)
+(spec/def :fx.echo/delay-time number?)
+(spec/def :fx.echo/level number?)
 
-(spec/def :fx.input1/echo (spec/keys :req [:fx.input1.echo/delay-time
-                                           :fx.input1.echo/level]
-                                     :opt [:fx.input1.echo/switch]))
-
-
-(spec/def :fx.input2/echo (spec/keys :req [:fx.input2.echo/delay-time
-                                           :fx.input2.echo/level]
-                                     :opt [:fx.input2.echo/switch]))
+(spec/def :fx/echo (spec/merge
+                    :fx/base
+                    (spec/keys :req [:fx.echo/delay-time
+                                     :fx.echo/level])))
 
 ;; compressor
-(spec/def :fx.input1.compressor/switch boolean?)
-(spec/def :fx.input2.compressor/switch boolean?)
-(spec/def :fx.input1.compressor/threshold number?)
-(spec/def :fx.input2.compressor/threshold number?)
-(spec/def :fx.input1.compressor/ratio number?)
-(spec/def :fx.input2.compressor/ratio number?)
-(spec/def :fx.input1.compressor/attack number?)
-(spec/def :fx.input2.compressor/attack number?)
-(spec/def :fx.input1.compressor/release number?)
-(spec/def :fx.input2.compressor/release number?)
+(spec/def :fx.compressor/threshold number?)
+(spec/def :fx.compressor/ratio number?)
+(spec/def :fx.compressor/attack number?)
+(spec/def :fx.compressor/release number?)
 
-(spec/def :fx.input1/compressor (spec/keys :req [:fx.input1.compressor/threshold
-                                                 :fx.input1.compressor/ratio
-                                                 :fx.input1.compressor/attack
-                                                 :fx.input1.compressor/release]
-                                           :opt [:fx.input1.compressor/switch]))
-
-(spec/def :fx.input2/compressor (spec/keys :req [:fx.input2.compressor/threshold
-                                                 :fx.input2.compressor/ratio
-                                                 :fx.input2.compressor/attack
-                                                 :fx.input2.compressor/release]
-                                           :opt [:fx.input2.compressor/switch]))
-
+(spec/def :fx/compressor (spec/merge
+                          :fx/base
+                          (spec/keys :req [:fx.compressor/threshold
+                                           :fx.compressor/ratio
+                                           :fx.compressor/attack
+                                           :fx.compressor/release])))
 
 ;; presets
 
-(spec/def :fx/preset (spec/and
-                      (spec/merge (spec/keys :req [:fx/type])
-                                  (spec/or :fx.input1/gate :fx.input1/gate
-                                           :fx.input2/gate :fx.input2/gate
-                                           :fx.input1/reverb :fx.input1/reverb
-                                           :fx.input2/reverb :fx.input2/reverb
-                                           :fx.input1/amplify :fx.input1/amplify
-                                           :fx.input2/amplify :fx.input2/amplify
-                                           :fx.input1/equalizer :fx.input1/equalizer
-                                           :fx.input2/equalizer :fx.input2/equalizer
-                                           :fx.input1/echo :fx.input1/echo
-                                           :fx.input2/echo :fx.input2/echo
-                                           :fx.input1/compressor :fx.input1/compressor
-                                           :fx.input2/compressor :fx.input2/compressor))
-                      (fn [{fx-type :fx/type :as data}]
-                        (cond (and (= fx-type :fx.input1/gate)
-                                   (contains? data :fx.input1.gate/threshold))
-                              true
+;; this spec is a bit special. originally a spec that and'ed
+;; :fx/base, a spec/or with all the fx and a function that checked
+;; that it was the correct corresponding data with the type was used
+;; it worked well with manual testing, but when used with reitit
+;; it failed. when tested with the data that was sent in over transit
+;; and back to the browser the specs checked out. something is off deep
+;; within the machinery.
+;; this spec solves all the problems we actually want to check against,
+;; but is slightly less informative when data is returned
+;; originally :fx/base had :fx/type as :req, but here it is always mandatory
+;; anyway, since it's always checked against
+(spec/def :fx/fx
+  (fn [{fx-type :fx/type :as data}]
+    (if (nil? fx-type)
+      false
+      (spec/valid? fx-type data))))
 
-                              (and (= fx-type :fx.input2/gate)
-                                   (contains? data :fx.input2.gate/threshold))
-                              true
-
-                              (and (= fx-type :fx.input1/reverb)
-                                   (contains? data :fx.input1.reverb/mix))
-                              true
-
-                              (and (= fx-type :fx.input2/reverb)
-                                   (contains? data :fx.input2.reverb/mix))
-                              true
-
-                              (and (= fx-type :fx.input1/amplify)
-                                   (contains? data :fx.input1.amplify/drive))
-                              true
-
-                              (and (= fx-type :fx.input2/amplify)
-                                   (contains? data :fx.input2.amplify/drive))
-                              true
-
-                              (and (= fx-type :fx.input1/equalizer)
-                                   (contains? data :fx.input1.equalizer/low))
-                              true
-
-                              (and (= fx-type :fx.input2/equalizer)
-                                   (contains? data :fx.input2.equalizer/low))
-                              true
-
-                              (and (= fx-type :fx.input1/echo)
-                                   (contains? data :fx.input1.echo/delay-time))
-                              true
-
-                              (and (= fx-type :fx.input2/echo)
-                                   (contains? data :fx.input2.echo/delay-time))
-                              true
-
-                              (and (= fx-type :fx.input1/compressor)
-                                   (contains? data :fx.input1.compressor/threshold))
-                              true
-
-                              (and (= fx-type :fx.input2/compressor)
-                                   (contains? data :fx.input2.compressor/threshold))
-                              true
-
-                              :else
-                              false))))
-
-(spec/def :fx/presets (spec/coll-of :fx/preset))
+(spec/def :fx/fxs (spec/coll-of :fx/fx))
 
 (spec/def :fx.preset/name string?)
 (spec/def :fx.preset/id number?)
-(spec/def :fx.preset/preset (spec/keys :req [:fx.preset/id
+(spec/def :fx/preset (spec/keys :req [:fx.preset/id
+                                      :fx.preset/name
+                                      :fx/fxs]))
+(spec/def :fx/presets (spec/coll-of :fx/preset))
+
+(spec/def :fx.preset/save (spec/keys :req [:fx.preset/name
+                                           :fx/fxs]))
+(spec/def :fx.preset/update (spec/keys :req [:fx.preset/id
                                              :fx.preset/name
-                                             :fx/presets]))
+                                             :fx/fxs]))
+(spec/def :fx.preset/delete (spec/keys :req [:fx.preset/id]))
 
-(spec/def :fx.preset/preset-save (spec/keys :req [:fx.preset/name
-                                                  :fx/presets]))
 
-(spec/def :fx.preset/preset-update (spec/keys :req [:fx.preset/id
-                                                    :fx.preset/name
-                                                    :fx/presets]))
-(spec/def :fx.preset/preset-delete (spec/keys :req [:fx.preset/id]))
+;; (spec/explain :fx.preset/save {:fx.preset/name "string1",
+;;                                :fx/fxs [{:fx/type :fx/echo,
+;;                                          :fx.echo/delay-time 0,
+;;                                          :fx.echo/level 0}]})
+
+;; (spec/explain :fx.preset/save {:fx.preset/name "string1",
+;;                                :fx/fxs [{:fx/type :fx/gate,
+;;                                          :fx.gate/threshold 100
+;;                                          :fx.gate/release 100
+;;                                          :fx.gate/attack 100}]})
+
+;; (spec/explain :fx.preset/update {:fx.preset/name "string1",
+;;                                  :fx.preset/id 1
+;;                                  :fx/fxs [{:fx/type :fx/echo,
+;;                                            :fx.echo/delay-time 0,
+;;                                            :fx.echo/level 0}]})
+
+;; (spec/explain :fx.preset/delete {:fx.preset/id 1})
+
+
+;; (spec/explain :fx/fx {:fx/type :fx/echo,
+;;                       :fx.echo/delay-time 0,
+;;                       :fx.echo/level 0})
