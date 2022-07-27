@@ -115,9 +115,10 @@
 (spec/def :fx.preset/save (spec/keys :req [:fx.preset/name
                                            :fx/fxs]))
 (spec/def :fx.preset/update (spec/keys :req [:fx.preset/id
-                                             :fx.preset/name
-                                             :fx/fxs]))
+                                             :fx/fxs]
+                                       :opt [:fx.preset/name]))
 (spec/def :fx.preset/delete (spec/keys :req [:fx.preset/id]))
+(spec/def :fx.preset/deleted (spec/keys :req [:fx.preset/id]))
 
 
 ;; (spec/explain :fx.preset/save {:fx.preset/name "string1",
