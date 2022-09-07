@@ -34,16 +34,19 @@
 (spec/def :room.jammer/id :auth.user/id)
 
 (spec/def :room/session (spec/keys :req [:room/id]))
-(spec/def :room.session/host (spec/keys :req [:room/id]))
-(spec/def :room.session/hosted (spec/keys :req [:room/id]))
-(spec/def :room.session/knock (spec/keys :req [:room/name]))
-(spec/def :room.session/knocked (spec/keys :req [:room/id
-                                                 :room/name]))
-(spec/def :room.session/accept (spec/keys :req [:room/id
-                                                :room/jammer]))
-(spec/def :room.session/decline (spec/keys :req [:room/id
-                                                 :room/jammer]))
-(spec/def :room.session/leave (spec/keys :req [:room/id]))
-(spec/def :room.session/remove (spec/keys :req [:room/id
-                                                :room.jammer/id]))
-(spec/def :room.session/close (spec/keys :req [:room/id]))
+(spec/def :room.jam/host (spec/keys :req [:room/id]))
+(spec/def :room.jam/hosted (spec/keys :req [:room/id
+                                            :room/owner
+                                            :room/name
+                                            :room/name-normalized]))
+(spec/def :room.jam/knock (spec/keys :req [:room/name]))
+(spec/def :room.jam/knocked (spec/keys :req [:room/id
+                                             :room/name]))
+(spec/def :room.jam/accept (spec/keys :req [:room/id
+                                            :room/jammer]))
+(spec/def :room.jam/decline (spec/keys :req [:room/id
+                                             :room/jammer]))
+(spec/def :room.jam/leave (spec/keys :req [:room/id]))
+(spec/def :room.jam/remove (spec/keys :req [:room/id
+                                            :room.jammer/id]))
+(spec/def :room.jam/close (spec/keys :req [:room/id]))
