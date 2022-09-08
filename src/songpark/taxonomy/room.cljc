@@ -2,6 +2,7 @@
   (:require [clojure.spec.alpha :as spec]
             [clojure.string :as str]
             [songpark.taxonomy.auth]
+            [songpark.taxonomy.jam]
             [songpark.taxonomy.profile]
             [songpark.taxonomy.util :refer [tick?]]))
 
@@ -28,18 +29,20 @@
 
 (spec/def :room/jammer (spec/keys :req [:auth.user/id
                                         :profile/name
-                                        :profile/position]
+                                        :profile/position
+                                        :jammer/status]
                                   :opt [:profile/image-url]))
-(spec/def :room/jammers (spec/coll-of :room/jammer))
-(spec/def :room.jammer/id :auth.user/id)
+(spec/def :room/jammers (spec/map-of :auth.user/id :room/jammer))
 
-(spec/def :room/session (spec/keys :req [:room/id]))
+(spec/def :room/jam (spec/keys :req [:room/id
+                                     :room/owner
+                                     :room/name
+                                     :room/name-normalized
+                                     :room/jammers]))
 (spec/def :room.jam/host (spec/keys :req [:room/id]))
-(spec/def :room.jam/hosted (spec/keys :req [:room/id
-                                            :room/owner
-                                            :room/name
-                                            :room/name-normalized]))
-(spec/def :room.jam/knock (spec/keys :req [:room/name]))
+(spec/def :room.jam/hosted :room/jam)
+(spec/def :room.jam/knock (spec/keys :req [:room/name]
+                                     :opt [:room/name-normalized]))
 (spec/def :room.jam/knocked (spec/keys :req [:room/id
                                              :room/name]))
 (spec/def :room.jam/accept (spec/keys :req [:room/id
@@ -48,5 +51,5 @@
                                              :room/jammer]))
 (spec/def :room.jam/leave (spec/keys :req [:room/id]))
 (spec/def :room.jam/remove (spec/keys :req [:room/id
-                                            :room.jammer/id]))
+                                            :auth.user/id]))
 (spec/def :room.jam/close (spec/keys :req [:room/id]))

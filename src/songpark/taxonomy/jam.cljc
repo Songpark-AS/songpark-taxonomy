@@ -18,3 +18,5 @@
 (spec/def :jam/stop (spec/keys :req [:jam/id]))
 (spec/def :jam/stopped (spec/keys :req [:jam/id
                                         :jam/status]))
+
+(spec/def :jammer/status #{:knocking :jamming})
