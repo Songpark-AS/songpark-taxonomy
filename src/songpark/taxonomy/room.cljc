@@ -13,7 +13,7 @@
 (spec/def :room/name-normalized (spec/and string?
                                           #(not (str/blank? %))))
 (spec/def :room/last-jammed tick?)
-(spec/def :room/last-jammers (spec/coll-of string?))
+(spec/def :room/jammer-names (spec/coll-of string?))
 
 (spec/def :room/save (spec/keys :req [:room/name]))
 (spec/def :room/update (spec/keys :req [:room/id
@@ -22,9 +22,7 @@
 (spec/def :room/room (spec/keys :req [:room/id
                                       :room/name
                                       :room/name-normalized]
-                                :opt [:room/owner
-                                      :room/last-jammed
-                                      :room/last-jammers]))
+                                :opt [:room/owner]))
 (spec/def :room/rooms (spec/coll-of :room/room))
 
 (spec/def :room/jammer (spec/keys :req [:auth.user/id
@@ -39,6 +37,15 @@
                                      :room/name
                                      :room/name-normalized
                                      :room/jammers]))
+(spec/def :room/jams (spec/coll-of :room/jam))
+
+(spec/def :room.jam/interlude (spec/keys :req [:room/id
+                                               :room/name
+                                               :room/last-jammed
+                                               :room/jammer-names]))
+(spec/def :room.jam/history (spec/coll-of :room.jam/interlude))
+
+
 (spec/def :room.jam/host (spec/keys :req [:room/id]))
 (spec/def :room.jam/hosted :room/jam)
 (spec/def :room.jam/knock (spec/keys :req [:room/name]
