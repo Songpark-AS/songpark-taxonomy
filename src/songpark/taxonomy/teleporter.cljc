@@ -7,6 +7,8 @@
 
 (spec/def :teleporter/id uuid?)
 (spec/def :teleporter/ip (spec/and string? #(re-matches ip-regex %)))
+(spec/def :teleporter/local-ip :teleporter/ip)
+(spec/def :teleporter/public-ip :teleporter/ip)
 (spec/def :teleporter/nickname string?)
 (spec/def :teleporter/serial string?)
 
@@ -16,6 +18,10 @@
 
 (spec/def :teleporter/init
   (spec/keys :req [:teleporter/serial]))
+
+(spec/def :teleporter.init/response
+  (spec/keys :req [:teleporter/id
+                   :teleporter/ip]))
 
 
 (spec/def :teleporter/ids
